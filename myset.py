@@ -33,8 +33,8 @@ class Set:
             if not x in combine_list:  # Removes duplicates
                 combine_list.append(x)
         self.data = combine_list
-        print(Set(self.data))
-        #return Set(self.data)
+        #print(Set(self.data))
+        return self
 
     def intersection_update(self, other):
         #self.data = []
@@ -43,8 +43,8 @@ class Set:
             if x in other.data:  # Pick common items
                 replace.append(x)
         self.data = replace
-        print(Set(self.data))
-        #return Set(self.data)  # Return a new Set
+        #print(Set(self.data))
+        return self  # Return a new Set
 
     def difference_update(self, other):
         res = []  # self is the subject
@@ -52,8 +52,8 @@ class Set:
             if not x in other.data:
                 res.append(x)
         self.data = res
-        print(Set(self.data))
-        #return Set(self.data)
+        #print(Set(self.data))
+        return self
 
     def symmetric_difference_update(self, other):
         res = []  # self is the subject
@@ -71,8 +71,8 @@ class Set:
             if not y in res:
                 answer.append(y)
         self.data = answer
-        print(Set(self.data))
-        #return Set(self.data)
+        #print(Set(self.data))
+        return self
 
     def add(self, elem = []):
         Return_Set= self.data + elem
@@ -143,19 +143,19 @@ x.issuperset(y)
 
 print("=====Test self |= other======")
 x,y = (Set([1,2,2,3]), Set([3,4,5,6]))
-x.IOR(y)
+print(x.IOR(y))
 
 print("=====Test self &= other=====")
 x,y = (Set([1,2,2,3,4]), Set([3,4,5,6]))
-x.intersection_update(y)
+print(x.intersection_update(y))
 
 print("=====Test self _= other======")
 x,y = (Set([1,2,3,4]), Set([3,4,5,6]))
-x.difference_update(y)
+print(x.difference_update(y))
 
 print("=====Test self ^= other======")
 x,y = (Set([1,2,3,4]), Set([3,4,5,6]))
-x.symmetric_difference_update(y)
+print(x.symmetric_difference_update(y))
 
 print("=====Add element elem to the set======")
 x = Set([1,2,3,4,7,10])
