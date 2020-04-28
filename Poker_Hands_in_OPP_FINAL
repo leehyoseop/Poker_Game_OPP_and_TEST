@@ -400,19 +400,6 @@ class Hands:
                     elif(A_hand_ranking[1][i]<B_hand_ranking[1][i]):
                         return False
 
-# A와 B에게 카드 배분
-#deck = Deck(PKCard)  # deck of poker cards
-#deck.shuffle()
-#c = deck[0]
-#print('A deck of', c.__class__.__name__)
-#print(deck)
-# testing __getitem__ method
-# print(deck[-5:])
-# while len(deck) >= 10:
-#for i in range(5):
-    #for hand in (my_hand, your_hand):
-        #card = deck.pop()
-        #hand.append(card)
 if __name__ == '__main__':
     def test(did_pass):
         """  Print the result of a test.  """
