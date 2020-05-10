@@ -154,15 +154,7 @@ def test_check_all_hands(faces, expected):
     hand = Hands([PKCard(c) for c in faces])
     result = hand.check_all_hands()
     assert Ranking[result[0]] == expected
-'''
-@pytest.mark.parametrize("faces, expected", cases())
-def test_tie_break(faces, expected):
-    random.shuffle(faces)
-    A_hand = Hands([PKCard(c) for c in faces])
-    B_hand = Hands([PKCard(c) for c in faces])
-    result = A_hand.tie_break(B_hand)
-    assert result == True or False
-'''
+    
 def test_who_wins():
     hand_cases = [Hands([PKCard(i) for i in faces]) for faces, ranking in cases()]
     for hand in hand_cases:
