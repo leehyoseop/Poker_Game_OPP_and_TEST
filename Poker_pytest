@@ -1,0 +1,174 @@
+import pytest
+import random
+from poker import *
+
+non_flush_suit = 'CHSDS'
+flush_suit = 'SSSSS'
+test_cases = {
+    Ranking.STRAIGHT_FLUSH: (
+        tuple(zip('T8976', 'DDDDD')),
+        tuple(zip('QKJT9', 'HHHHH')),
+        tuple(zip('AKQJT', flush_suit)),
+        tuple(zip('KQJT9', flush_suit)),
+    ),
+    Ranking.FOUR_OF_A_KIND: (
+        tuple(zip('75777', 'DDCHS')),
+        tuple(zip('QQ8QQ', 'HSHDC')),
+        tuple(zip('TTTTQ', non_flush_suit)),
+        tuple(zip('9999A', non_flush_suit)),
+    ),
+    Ranking.FULL_HOUSE: (
+        tuple(zip('75577', 'DDCHS')),
+        tuple(zip('55888', 'HSHDC')),
+        tuple(zip('88877', non_flush_suit)),
+        tuple(zip('22299', non_flush_suit)),
+    ),
+    Ranking.FLUSH: (
+        tuple(zip('58T34', 'DDDDD')),
+        tuple(zip('6T354', 'CCCCC')),
+        tuple(zip('AJT98', flush_suit)),
+        tuple(zip('AJ987', flush_suit)),
+    ),
+    Ranking.STRAIGHT: (
+        tuple(zip('68754', 'CHHCH')),
+        tuple(zip('75643', 'SSDDC')),
+        tuple(zip('AKQJT', non_flush_suit)),
+        tuple(zip('KQJT9', non_flush_suit)),
+    ),
+    Ranking.THREE_OF_A_KIND: (
+        tuple(zip('A8A4A', 'CHDCH')),
+        tuple(zip('9T989', 'SSDDC')),
+        tuple(zip('888A9', non_flush_suit)),
+        tuple(zip('888A7', non_flush_suit)),
+    ),
+    Ranking.TWO_PAIRS: (
+        tuple(zip('A995A', 'CDHCS')),
+        tuple(zip('9AA97', 'CDHSD')),
+        tuple(zip('AA998', non_flush_suit)),
+        tuple(zip('AA778', non_flush_suit)),
+        tuple(zip('JJTTK', non_flush_suit)),
+    ),
+    Ranking.ONE_PAIR: (
+        tuple(zip('A5A92', 'CCCCH')),
+        tuple(zip('7A4A3', 'CHHDD')),
+        tuple(zip('88AT9', non_flush_suit)),
+        tuple(zip('88AT7', non_flush_suit)),
+        tuple(zip('77AKQ', non_flush_suit)),
+    ),
+    Ranking.HIGH_CARD: (
+        tuple(zip('937K4', 'SCSCH')),
+        tuple(zip('2A463', 'CHSDS')),
+        tuple(zip('AJT98', non_flush_suit)),
+        tuple(zip('AJT97', non_flush_suit)),
+        tuple(zip('QJT97', non_flush_suit)),
+    ),
+}
+
+def cases(*rankings):
+    if not rankings:
+        rankings = test_cases.keys()
+    return \
+        [([r+s for r, s in case], ranking)
+                    for ranking in rankings
+                        for case in test_cases[ranking] 
+        ]
+
+@pytest.mark.parametrize("faces, expected", cases(Ranking.STRAIGHT_FLUSH))
+def test_is_straight_flush(faces, expected):
+    hand_org = [PKCard(c) for c in faces]
+    random.shuffle(faces)
+    hand = Hands([PKCard(c) for c in faces])
+    result = hand.is_straight_flush(hand.cards)
+    assert result[0] == 'STRAIGHT_FLUSH'
+    
+
+@pytest.mark.parametrize("faces, expected", cases(Ranking.STRAIGHT))
+def test_is_straight(faces, expected):
+    hand_org = [PKCard(c) for c in faces]
+    random.shuffle(faces)
+    hand = Hands([PKCard(c) for c in faces])
+    result = hand.is_straight(hand.cards)
+    assert result[0] == 'STRAIGHT'
+    
+
+@pytest.mark.parametrize("faces, expected", cases(Ranking.FLUSH))
+def test_is_flush(faces, expected):
+    hand_org = [PKCard(c) for c in faces]
+    random.shuffle(faces)
+    hand = Hands([PKCard(c) for c in faces])
+    result = hand.is_flush(hand.cards)
+    assert result[0] == 'FLUSH'
+    
+@pytest.mark.parametrize("faces, expected", cases(Ranking.FOUR_OF_A_KIND))
+def test_is_four_of_a_kind(faces, expected):
+    hand_org = [PKCard(c) for c in faces]
+    random.shuffle(faces)
+    hand = Hands([PKCard(c) for c in faces])
+    result = hand.is_four_of_a_kind(hand.cards)
+    assert result[0] == 'FOUR_OF_A_KIND'
+    
+@pytest.mark.parametrize("faces, expected", cases(Ranking.FULL_HOUSE))
+def test_is_full_house(faces, expected):
+    hand_org = [PKCard(c) for c in faces]
+    random.shuffle(faces)
+    hand = Hands([PKCard(c) for c in faces])
+    result = hand.is_full_house(hand.cards)
+    assert result[0] == 'FULL_HOUSE'
+    
+@pytest.mark.parametrize("faces, expected", cases(Ranking.THREE_OF_A_KIND))
+def test_is_three_of_a_kind(faces, expected):
+    hand_org = [PKCard(c) for c in faces]
+    random.shuffle(faces)
+    hand = Hands([PKCard(c) for c in faces])
+    result = hand.is_three_of_a_kind(hand.cards)
+    assert result[0] =='THREE_OF_A_KIND'
+   
+@pytest.mark.parametrize("faces, expected", cases(Ranking.TWO_PAIRS))
+def test_is_two_pair(faces, expected):
+    hand_org = [PKCard(c) for c in faces]
+    random.shuffle(faces)
+    hand = Hands([PKCard(c) for c in faces])
+    result = hand.is_two_pair(hand.cards)
+    assert result[0] == 'TWO_PAIRS'
+    
+@pytest.mark.parametrize("faces, expected", cases(Ranking.ONE_PAIR))
+def test_is_one_pair(faces, expected):
+    hand_org = [PKCard(c) for c in faces]
+    random.shuffle(faces)
+    hand = Hands([PKCard(c) for c in faces])
+    result = hand.is_one_pair(hand.cards)
+    assert result[0] == 'ONE_PAIR'
+    
+@pytest.mark.parametrize("faces, expected", cases(Ranking.HIGH_CARD))
+def test_is_high_card(faces, expected):
+    hand_org = [PKCard(c) for c in faces]
+    random.shuffle(faces)
+    hand = Hands([PKCard(c) for c in faces])
+    result = hand.is_high_card(hand.cards)
+    assert result[0] == 'HIGH_CARD'
+    
+
+@pytest.mark.parametrize("faces, expected", cases())
+def test_check_all_hands(faces, expected):
+    random.shuffle(faces)
+    hand = Hands([PKCard(c) for c in faces])
+    result = hand.check_all_hands()
+    assert Ranking[result[0]] == expected
+'''
+@pytest.mark.parametrize("faces, expected", cases())
+def test_tie_break(faces, expected):
+    random.shuffle(faces)
+    A_hand = Hands([PKCard(c) for c in faces])
+    B_hand = Hands([PKCard(c) for c in faces])
+    result = A_hand.tie_break(B_hand)
+    assert result == True or False
+'''
+def test_who_wins():
+    hand_cases = [Hands([PKCard(i) for i in faces]) for faces, ranking in cases()]
+    for hand in hand_cases:
+        hand.check_all_hands()
+    #sorted_cases = sorted(hand_cases, reversed=True)
+    #assert sorted_cases == hand_cases
+    print('\nHigh to low order:')
+    for i, hand in enumerate(hand_cases):
+        print(hand.cards, hand.check_all_hands()[1], Ranking[hand.check_all_hands()[0]])
